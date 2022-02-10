@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+  }
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0px;
@@ -5,6 +9,7 @@ body {
 
 .title-wrapper {
     width: 100%;
+    text-align: center;
     background-color: rgb(49, 49, 49);
     color: rgb(238, 238, 238);
     padding: 10px 30px 10px 30px;
@@ -12,13 +17,25 @@ body {
 }
 
 .container {
-    width: 80%;
+    position: relative;
+    width: 100%;
+}
+
+.container-center {
+    width: min(80vw, 800px);
     margin: auto;
 }
 
 .forms-list {
-    background-color: greenyellow;
-    padding: 5px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    height: max(vh);
+    width: 20%;
+    background-color: black;
+    z-index: 1;
+    overflow-y: auto;
 }
 
 .forms-item {
@@ -29,16 +46,21 @@ body {
     border-color: rgb(97, 97, 97);
 }
 
+.forms-item:hover {
+    background-color: black;
+    color: white;
+}
+
 .form-details {
     display: flex;
 }
 
 .form-video-wrapper {
     position: relative;
-    padding-bottom: 39.375%;
+    padding-bottom: 56.25%;
     padding-top: 25px;
     height: 0px;
-    width: 70%;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -50,21 +72,31 @@ body {
     bottom: 0px;
     height: 100%;
     width: 100%;
+    border: 0px;
 }
 
-.movements-wrapper {
-    padding-bottom: 39.375%;
-    padding-top: 25px;
-    height: 0px;
-    width: 30%;
+.movements-list {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: max(vh);
+    width: 20%;
+    background-color: black;
+    z-index: 1;
     overflow-y: auto;
 }
 
 .movements-item {
     padding: 5px;
-    margin: 5px;
+    margin: 5px 5px 5px 5px;
     background-color: gray;
     border: 1px;
     border-color: rgb(97, 97, 97);
     font-size: small;
+}
+
+.movements-item:hover {
+    background-color: black;
+    color: white;
 }

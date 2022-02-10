@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tai Chi Coach</title>
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="title-wrapper">
+        <div class="title">
+            <h1>Tai Chi Coach</h1>
+        </div>
+        <div class="menu-wrapper">
+
+        </div>
+        <div class="loggedIn">
+            Hi <%= name %>
+            <span>
+                <form method="POST" action="/users/logout?_method=DELETE">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">Sign Out</button>
+                </form>
+            </span>
+        </div>
+        
+    </div>    
+
+    <div class="container">
+
+        <div class="forms-list"></div>
+
+        <div class="container-center">
+            <div class="forms-details">
+                <div class="form-video-wrapper">
+                    <iframe id="form-video-iframe" src="https://www.youtube.com/embed/c3kAq_Bmomc?enablejsapi=1"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <div class="movements-list"></div>
+        
+    </div>
+
+
+    <script async src="https://www.youtube.com/iframe_api"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

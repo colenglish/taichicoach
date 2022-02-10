@@ -1,9 +1,9 @@
 {
-    "formId": "wudangshort",
+    "formId": "ptccishort",
     "name": "Short Form",
     "style": "Wudang Tai Chi Chuan",
     "videos": [{
-        "teacher": "WUDANG FRANCE",
+        "instructor": "Ladan Niayesh",
         "youtubeVideoId": "s0D9duvVmHI",
         "movementDurations": [
             [0,3],

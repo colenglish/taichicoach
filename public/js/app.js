@@ -20,7 +20,7 @@ function onYouTubeIframeAPIReady() {
         events: {
             'onStateChange': event => {
                 if (event.data === YT.PlayerState.ENDED) {
-                    loadFormVideo();
+                    player.seekTo(typeof videoStart === 'number' && videoStart >= 0 ? videoStart : 0);
                 }
             },
             'onReady': e => e.target.mute()
@@ -45,8 +45,7 @@ var loadFormVideo = () => {
 
 window.onload = () => {
     const formList = document.querySelector('.forms-list');
-    console.log(formList);
-    const movementWrapper = document.querySelector('.movements-wrapper');
+    const movementlist = document.querySelector('.movements-list');
 
     fetch('http://localhost:3000/forms')
         .then(res => res.json())
@@ -65,12 +64,12 @@ window.onload = () => {
                         loadFormVideo();
                     }
 
-                    movementWrapper.childNodes.forEach(child => child.remove());
+                    movementlist.innerHTML = '';
                     form.movements.forEach((movement, index) => {
                         let listItem = document.createElement('div');
                         listItem.classList.add('movements-item');
                         listItem.innerText = movement.name;
-                        movementWrapper.appendChild(listItem);
+                        movementlist.appendChild(listItem);
                         listItem.addEventListener('click', ev => {
                             if(video){
                                 let duration = (video.movementDurations && video.movementDurations.length > index+1) ? video.movementDurations[index] : [];

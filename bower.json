@@ -1,0 +1,20 @@
+{
+  "name": "taichicoach",
+  "description": "App to support distant students",
+  "main": "server.js",
+  "authors": [
+    "Colin English"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/colenglish/taichicoach",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}
