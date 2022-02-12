@@ -5,12 +5,8 @@ const FormSchema = new mongoose.Schema({
     formId: { type: String },
     name: { type: String },
     style: { type: String },
-    videos: [{
-        teacher: { type: String },
-        youtubeVideoId: { type: String },
-        movementDurations: [[{type: Number}]]
-    }],
-    movements: [Movement.schema]
+    videos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
+    movements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movement' }]
 });
 
 module.exports = mongoose.model("Form", FormSchema);

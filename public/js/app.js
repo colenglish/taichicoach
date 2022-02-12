@@ -1,7 +1,5 @@
 var player;
-var videoId;
-var videoStart;
-var videoEnd;
+var currentVideo;
 
 function onYouTubeIframeAPIReady() {
     // an iframe element on the page already defines the player with which the API will be used.
@@ -20,7 +18,7 @@ function onYouTubeIframeAPIReady() {
         events: {
             'onStateChange': event => {
                 if (event.data === YT.PlayerState.ENDED) {
-                    player.seekTo(typeof videoStart === 'number' && videoStart >= 0 ? videoStart : 0);
+                    player.seekTo(typeof currentVideo.start === 'number' && currentVideo.start >= 0 ? currentVideo.start : 0);
                 }
             },
             'onReady': e => e.target.mute()
@@ -32,12 +30,12 @@ var loadFormVideo = () => {
     if (!player) {
         return;
     }
-    var videoData = { videoId: videoId }
-    if (typeof videoStart === 'number' && videoStart >= 0){
-        videoData.startSeconds = videoStart;
+    var videoData = { videoId: currentVideo.videoId }
+    if (typeof currentVideo.start === 'number' && currentVideo.start >= 0){
+        videoData.startSeconds = currentVideo.start;
     }
-    if (typeof videoEnd === 'number' && videoEnd >= 0){
-        videoData.endSeconds = videoEnd;
+    if (typeof currentVideo.end === 'number' && currentVideo.end >= 0){
+        videoData.endSeconds = currentVideo.end;
     }
     
     player.loadVideoById(videoData);
@@ -56,11 +54,8 @@ window.onload = () => {
                 listItem.innerText = form.name;
                 formList.appendChild(listItem);
                 listItem.addEventListener('click', ev => {
-                    let video = form.videos[0]
-                    if (video){
-                        videoId = video.youtubeVideoId;
-                        videoStart = null;
-                        videoEnd = null;
+                    if(form.videos && form.videos.length > 0) {
+                        currentVideo = form.videos[0]; // First of the list
                         loadFormVideo();
                     }
 
@@ -71,10 +66,8 @@ window.onload = () => {
                         listItem.innerText = movement.name;
                         movementlist.appendChild(listItem);
                         listItem.addEventListener('click', ev => {
-                            if(video){
-                                let duration = (video.movementDurations && video.movementDurations.length > index+1) ? video.movementDurations[index] : [];
-                                videoStart = duration.length > 0 ? duration[0] : null;
-                                videoEnd = duration.length > 1 ? duration[1] : null;
+                            if(movement.videos && movement.videos.length > 0) {
+                                currentVideo = movement.videos[0]; // First of the list
                                 loadFormVideo();
                             } 
                             

@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
     lastName: { type: String },
     email: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true },
     hash: { type: String, required: true },
-    salt: { type: String, required: true }
+    salt: { type: String, required: true },
+    admin: { type: Boolean, default: false }
 
 }, {timestamps: true});
 

@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Dan Docherty",
+        "organisation": "Practical Tai Chi Chuan International",
+        "orgLevel": "Head"
+    },
+    {
+        "name": "Charlie Gorrie",
+        "organisation": "Practical Tai Chi Chuan Scotland",
+        "orgLevel": "Head",
+        "techingLevel": "9",
+        "teachers": ["Dan Docherty"]
+    },
+    {
+        "name": "Colin English",
+        "organisation": "Practical Tai Chi Chuan Scotland",
+        "orgLevel": "Senior",
+        "techingLevel": "8",
+        "teachers": ["Dan Docherty"]
+    },
+    {
+        "name": "Ladan Niayesh",
+        "organisation": "Practical Tai Chi Chuan International",
+        "club": "Wudang France",
+        "teachers": ["Dan Docherty"]
+    }
+]
