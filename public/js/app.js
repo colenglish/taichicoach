@@ -45,7 +45,7 @@ window.onload = () => {
     const formList = document.querySelector('.forms-list');
     const movementlist = document.querySelector('.movements-list');
 
-    fetch('http://localhost:3000/forms')
+    fetch('/forms')
         .then(res => res.json())
         .then(forms => {
             forms.forEach(form => {
