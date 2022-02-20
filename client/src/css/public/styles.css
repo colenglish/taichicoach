@@ -9,11 +9,34 @@ body {
 
 .title-wrapper {
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: rgb(49, 49, 49);
     color: rgb(238, 238, 238);
-    padding: 10px 30px 10px 30px;
+    padding: 10px 20px 10px 20px;
     margin: 10px 0px 20px 0px;
+}
+
+.sidebar-button-wrapper {
+}
+
+.title {
+    text-align: center;
+}
+
+.title h1 {
+    margin: 0;
+}
+
+.loggedIn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.loggedIn div {
+    padding-right: 1em;
 }
 
 .container {
@@ -24,18 +47,6 @@ body {
 .container-center {
     width: min(80vw, 800px);
     margin: auto;
-}
-
-.forms-list {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    height: max(vh);
-    width: 20%;
-    background-color: black;
-    z-index: 1;
-    overflow-y: auto;
 }
 
 .forms-item {
@@ -49,10 +60,6 @@ body {
 .forms-item:hover {
     background-color: black;
     color: white;
-}
-
-.form-details {
-    display: flex;
 }
 
 .form-video-wrapper {
@@ -76,15 +83,7 @@ body {
 }
 
 .movements-list {
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    height: max(vh);
-    width: 20%;
-    background-color: black;
-    z-index: 1;
-    overflow-y: auto;
+    margin-left: 20px;
 }
 
 .movements-item {
@@ -97,6 +96,11 @@ body {
 }
 
 .movements-item:hover {
+    background-color: black;
+    color: white;
+}
+
+.item-selected {
     background-color: black;
     color: white;
 }

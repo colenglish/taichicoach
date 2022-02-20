@@ -33,8 +33,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, '/../client/public')));
+app.use(express.static(path.join(__dirname, '/../client/bower_components')));
+app.use(express.static(path.join(__dirname, '/../client/src/css/public')));
 
 const userRouter = require('./routes/user');
 app.use('/users', userRouter);

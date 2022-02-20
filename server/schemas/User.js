@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const crypto = require('crypto'); // many favour this built in crypto than bcrypt (should consider slow hashing to discourage brute force attacks)
-const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
     firstName: { type: String },

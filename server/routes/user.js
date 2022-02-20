@@ -10,7 +10,7 @@ router.get('/', checkLoggedIn, async (req, res) => {
 });
 
 router.get('/register', checkNotLoggedIn, (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/register.html'));
+    res.sendFile(path.join(__dirname, '../../client/public/register.html'));
 });
 
 router.post('/register', async (req, res) => {
@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/login',checkNotLoggedIn, (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/login.html'));
+    res.sendFile(path.join(__dirname, '../../client/public/login.html'));
 });
 
 router.post('/login', passport.authenticate('local', {
