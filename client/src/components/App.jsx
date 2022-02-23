@@ -34,15 +34,16 @@ class App extends Component {
     this.setState({
       currentForm: form,
       currentMovement: null,
-      currentVideo: form.videos && form.videos.length > 0 ? form.videos[0] : defaultVideo // First of the list for now
+      currentVideo: form.videos && form.videos.length > 0 ? form.videos[0] : defaultVideo, // First of the list for now
+      currentClip: null
     });
   }
 
   handleMovementClick(movement) {
     this.setState({
       currentMovement: movement,
-      currentVideo: movement.videos && movement.videos.length > 0 ? movement.videos[0] : defaultVideo, // First of the list for now
-      showFormSelector: false // also hide the selector at this levely of detail
+      currentClip: this.state.currentVideo.clips && this.state.currentVideo.clips.find(clip => clip.ref === movement._id),
+      showFormSelector: false // also hide the selector at this level of detail
     });
   }
 
@@ -74,7 +75,7 @@ class App extends Component {
             onFormClick={form => this.handleFormClick(form)}
             onMovementClick={movement => this.handleMovementClick(movement)}
             onClose={() => this.handleFormSelectorClose()} />
-          <VideoPlayer video={this.state.currentVideo} />
+          <VideoPlayer video={this.state.currentVideo} clip={this.state.currentClip} />
         </div>
       </>
     );

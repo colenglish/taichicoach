@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import YouTube from 'react-youtube';
+import Equal from 'fast-deep-equal';
 
 class VideoPlayer extends Component {
+
+    // Can see exceptions from using this, but relates to cross origin ad stuff, and is irrelevant (https://stackoverflow.com/a/63820138)
     opts = {
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
@@ -21,24 +24,26 @@ class VideoPlayer extends Component {
         this.state = { player: null };
     }
 
+    getClipStart() {
+        return this.props.clip && typeof this.props.clip.start === 'number' && this.props.clip.start >= 0
+            ? this.props.clip.start
+            : null;
+    }
+
+    getClipEnd() {
+        return this.props.clip && typeof this.props.clip.end === 'number' && this.props.clip.end >= 0
+            ? this.props.clip.end
+            : null;
+    }
+
     componentDidUpdate(prevProps) {
         const player = this.state.player;
-        if (!player) {
-            return;
-        }
-
-        if (prevProps.video && this.props.video
-            && (prevProps.video.videoId === this.props.video.videoId
-                || prevProps.video.start === this.props.video.start
-                || prevProps.video.end === this.props.video.end)) {
-            var videoData = { videoId: this.props.video.videoId }
-            if (typeof this.props.video.start === 'number' && this.props.video.start >= 0){
-                videoData.startSeconds = this.props.video.start;
-            }
-            if (typeof this.props.video.end === 'number' && this.props.video.end >= 0){
-                videoData.endSeconds = this.props.video.end;
-            }
-            
+        if (player && (!Equal(prevProps.video, this.props.video) || !Equal(prevProps.clip, this.props.clip))) {
+            var videoData = {
+                videoId: this.props.video.videoId,
+                startSeconds: this.getClipStart(),
+                endSeconds: this.getClipEnd()
+            };            
             player.loadVideoById(videoData);
         }        
     }
@@ -67,7 +72,7 @@ class VideoPlayer extends Component {
 
     onEnd(e) {
         const player = e.target;
-        const start = typeof this.props.video.start === 'number' && this.props.video.start >= 0 ? this.props.video.start : 0
+        const start = this.getClipStart() || 0;
         player.seekTo(start);
     }
 }

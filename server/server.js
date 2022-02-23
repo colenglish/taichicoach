@@ -23,7 +23,7 @@ app.use(methodOverride('_method'))
 mongoose.connect(process.env.MONGO_URI);
 
 // set the view engine to ejs
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); // Not currently used since move to react, but may use
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -34,7 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '/../client/public')));
-app.use(express.static(path.join(__dirname, '/../client/bower_components')));
+app.use(express.static(path.join(__dirname, '/../client/bower_components'))); // Still used for bootstap in the non-react html files
 app.use(express.static(path.join(__dirname, '/../client/src/css/public')));
 
 const userRouter = require('./routes/user');
@@ -44,7 +44,7 @@ const formRouter = require('./routes/form');
 app.use('/forms', formRouter);
 
 app.use('/', checkLoggedIn, (req, res) => {
-    res.render('index', { name: req.user.firstName })
+    res.sendFile(path.join(__dirname, '../client/public/app-launch.html'));
 });
 
 app.listen(PORT, () => {

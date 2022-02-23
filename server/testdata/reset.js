@@ -27,59 +27,60 @@ const reset = async () => {
             await new Practitioner(p).save();
         });
 
+        const generateVideo = (vid, practitioners, refFromName) => {
+            const vidClone = { ...vid };
+            if (vidClone.practitioner){
+                vidClone.practitioner = practitioners.find(p => p.name === vidClone.practitioner )._id
+            }
+            
+            vidClone._id = new mongoose.Types.ObjectId();
+            vidClone.clips = vidClone.namedClips.map(nclip => {
+                const clipClone = {
+                    ...nclip,
+                    ref: refFromName(nclip.name)
+                };
+                delete clipClone.name;
+                return clipClone;
+            });
+            delete vidClone.namedClips;
+            return vidClone;
+        };
+
         fs.readdir('testdata/forms', (err, files) => {
             files.forEach(f => fs.readFile(`testdata/forms/${f}`, 'utf8', async (err, data) => {
-                var { form, movements, videos } = JSON.parse(data);
+                var { form, movements, formVideos, movementVideos } = JSON.parse(data);
     
                 form._id = new mongoose.Types.ObjectId();
                 form.videos = [];
                 form.movements = [];
+
+                // Don't use forEach as an async func which will cause things still unpopulated at save
+                for (var movement of movements) {
+                    movement._id = new mongoose.Types.ObjectId();
+                    movement.videos = [];
+
+                    // Don't use forEach as an async func which will cause things still unpopulated at save
+                    for (var vid of movementVideos) {  
+                        const vidClone = generateVideo(vid, practitioners, name => name);
+                        await Video(vidClone).save();
+                        movement.videos.push(vidClone._id);
+                    }
+                    
+                    console.log(`movement: ${movement.name} videos: ${movement.videos}`);
+                    await new Movement(movement).save();
+                    form.movements.push(movement._id);
+                }                
                 
                 // Don't use forEach as an async func which will cause things still unpopulated at save
-                for (var vid of videos) {
-                    if (vid.practitioner){
-                        vid.practitioner = practitioners.find(p => p.name === vid.practitioner )._id
-                    }
-    
-                    var vidClone = { ...vid };
-                    vidClone._id = new mongoose.Types.ObjectId();
-                    delete vidClone.movementClips;
+                for (var vid of formVideos) {
+                    const vidClone = generateVideo(vid, practitioners, name => movements.find(m => m.name === name )._id);
                     await Video(vidClone).save();
                     form.videos.push(vidClone._id);
                 }
-
-                // Don't use forEach as an async func which will cause things still unpopulated at save
-                for (var [movIndex, mov] of movements.entries()) { // A little hack to get index from array.entries (all a bit unnecessary when a good old fashioned for is there)
-                    mov._id = new mongoose.Types.ObjectId();
-                    mov.videos = [];
-
-                    // Don't use forEach as an async func which will cause things still unpopulated at save
-                    for (var vid of videos) { 
-                        if (vid.movementClips && vid.movementClips.length > movIndex) {
-                            var clip = vid.movementClips[movIndex];
-                            var vidClone = { ...vid };
-                                vidClone._id = new mongoose.Types.ObjectId();
-                                delete vidClone.movementClips;
-                                if (clip && clip.length > 0) {
-                                    vidClone.start = clip[0];
-                                }
-                                if (clip && clip.length > 1) {
-                                    vidClone.end = clip[1];
-                                }
-
-                                await Video(vidClone).save();
-                                mov.videos.push(vidClone._id);
-                        }
-                    }
-                    
-                    console.log(`${mov.name} videos: ${mov.videos}`);
-                    await new Movement(mov).save();
-                    form.movements.push(mov._id);
-                }
-    
-                console.log(`${form.name} videos: ${form.videos}`);
-                console.log(`${form.name} movements: ${form.movements}`);
+                
                 await new Form(form).save();
+                
+                console.log(`${form.name} movements: ${form.movements} videos: ${form.videos}`);
             }))
         });
     });
