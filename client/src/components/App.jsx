@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import FormSelector from './FormSelector';
 import VideoPlayer from './VideoPlayer';
+import UserContext from '../contexts/user-context';
 
 const defaultVideo = {
   videoId: 'c3kAq_Bmomc'
@@ -11,7 +12,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Colin",
       error: null,
       forms: [],
       currentForm: null,
@@ -22,12 +22,17 @@ class App extends Component {
   }
 
   componentDidMount() {
+    fetch('/users/current') // Would be best populating the context in a react login component, but it's a static login page for now
+      .then(res => res.json())
+      .then(
+        result => this.setState({ currentUser: result }),
+        error => this.setState({ error }));
     fetch('/forms')
       .then(res => res.json())
       .then(
         result => this.setState({ forms: result }),
         error => this.setState({ error })
-      )
+      );
   }
 
   handleFormClick(form) {
@@ -62,7 +67,7 @@ class App extends Component {
     }
 
     return (
-      <>
+      <UserContext.Provider value={this.state.currentUser}>
         <div>
           <Header name={this.state.name} onShowFormSelector={() => this.handleFormSelectorShow()} />
         </div>        
@@ -77,7 +82,7 @@ class App extends Component {
             onClose={() => this.handleFormSelectorClose()} />
           <VideoPlayer video={this.state.currentVideo} clip={this.state.currentClip} />
         </div>
-      </>
+        </UserContext.Provider>
     );
   }
 }

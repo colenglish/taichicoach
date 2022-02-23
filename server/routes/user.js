@@ -40,4 +40,8 @@ router.delete('/logout', (req, res) => {
     res.redirect('/users/login');
 });
 
+router.get('/current', checkLoggedIn, async (req, res) => {
+    return res.json({ firstName: req.user.firstName, admin: req.user.admin });
+});
+
 module.exports = router;
